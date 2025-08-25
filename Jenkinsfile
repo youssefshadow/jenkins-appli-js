@@ -46,6 +46,7 @@ pipeline {
             post {
                 always {
                     publishTestResults testResultsPattern: 'test-results.xml'
+                    junit 'test-results.xml'
                 }
             }
         }
