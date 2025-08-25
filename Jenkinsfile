@@ -18,11 +18,23 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installation des dépendances Node.js...'
-                sh '''
-                    node --version
-                    npm --version
-                    npm ci
-                '''
+                script {
+                    if (fileExists('package-lock.json')) {
+                        echo 'package-lock.json trouvé, utilisation de npm ci...'
+                        sh '''
+                            node --version
+                            npm --version
+                            npm ci
+                        '''
+                    } else {
+                        echo 'package-lock.json absent, utilisation de npm install...'
+                        sh '''
+                            node --version
+                            npm --version
+                            npm install
+                        '''
+                    }
+                }
             }
         }
         
@@ -42,8 +54,8 @@ pipeline {
             steps {
                 echo 'Vérification de la qualité du code...'
                 sh '''
-                    echo "Vérification de la syntaxe JavaScript..."
-                    find src -name "*.js" -exec node -c {} \\;
+                    echo "Vérification de la syntaxe JavaScript sur tout le projet..."
+                    find . -name "*.js" -exec node -c {} \\;
                     echo "Vérification terminée"
                 '''
             }
