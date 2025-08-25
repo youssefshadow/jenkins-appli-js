@@ -1,13 +1,13 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 // Servir les fichiers statiques
-app.use(express.static(path.join(__dirname, "src")));
+app.use(express.static(path.join(__dirname, "mon-app")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "src", "index.html"));
+  res.sendFile(path.join(__dirname, "mon-app", "index.html"));
 });
 
 app.get("/health", (req, res) => {
@@ -19,5 +19,5 @@ app.get("/health", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Serveur démarré sur le port ${port}`);
+  console.log(`App running on http://localhost:${port}`);
 });
